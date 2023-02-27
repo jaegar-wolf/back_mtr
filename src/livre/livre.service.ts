@@ -54,13 +54,13 @@ export class LivreService {
   }
 
   async getBook(){
-    return await this.bookRepository.find()
+    return await this.bookRepository.find({ take: 1000})
   }
 
   async findBookByWord(theWord: string){
     const books = await this.bookRepository
       .createQueryBuilder("book")
-      .select(['book.id', 'book.title', 'book.authors', 'book.formats'])
+      .select(['book.id', 'book.title', 'book.authors', 'book.formats', 'book.subjects'])
       .leftJoin(Occurence, "occur", "book.id = occur.book")
       .leftJoin(Word, "word", "occur.word = word.id")
       .where("word.word = :mot", { mot: theWord } )
@@ -77,7 +77,7 @@ export class LivreService {
     const onlyWord = words.map(word => word.word)
     const books =  await this.bookRepository
       .createQueryBuilder("book")
-      .select(['book.id', 'book.title', 'book.authors', 'book.formats'])
+      .select(['book.id', 'book.title', 'book.authors', 'book.formats', 'book.subjects'])
       .leftJoin(Occurence, "occur", "book.id = occur.book")
       .leftJoin(Word, "word", "occur.word = word.id")
       .where("word.word in (:...mots)", { mots: onlyWord } )
@@ -87,21 +87,29 @@ export class LivreService {
     return await this.sortWithJaccard(books)
   }
 
-  private async sortWithJaccard(books: Book[]){
-    const jaccardMap = new Map<Book, number>()
-    const blackList = await this.getBlackListWord()
-    const firstBook = books.shift()
-    let firstBookWords = await this.getWordsOfBookFiltered(firstBook, blackList)
-    for(let book of books) {
-      const bookWords = await this.getWordsOfBookFiltered(book, blackList)
-      jaccardMap.set(book, jaccard(firstBookWords,bookWords))
+  private async sortWithJaccard(books: Book[]){ 
+    if (books.length == 0) {
+      return []
     }
-    const sortByJaccard = Array.from(jaccardMap.entries()).sort((a,b) => {
-      return b[1] - a[1]
-    })
-    let newBookList = sortByJaccard.map( e => e[0])
-    newBookList.unshift(firstBook)
-    return newBookList
+    else {
+      const jaccardMap = new Map<Book, number>()
+      const blackList = await this.getBlackListWord()
+      const firstBook = books.shift()
+      const secondBook = books.shift()
+      let firstBookWords = await this.getWordsOfBookFiltered(firstBook, blackList)
+      for(let book of books) {
+        const bookWords = await this.getWordsOfBookFiltered(book, blackList)
+        jaccardMap.set(book, jaccard(firstBookWords,bookWords))
+      }
+      const sortByJaccard = Array.from(jaccardMap.entries()).sort((a,b) => {
+        return b[1] - a[1]
+      })
+      let newBookList = sortByJaccard.map( e => e[0])
+      newBookList.unshift(secondBook)
+      newBookList.unshift(firstBook)
+      return newBookList
+    }
+
   }
 
   private async getWordsOfBookFiltered(book: Book, blackList: string[]){

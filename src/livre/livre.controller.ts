@@ -21,6 +21,6 @@ export class LivreController {
 
     @Post('/regex')
     async findByRegex(@Body('reg') reg: string){
-        return await this.livreService.findBookByRegex(reg)
+        return reg === undefined ? [] : await this.livreService.findBookByRegex(reg)
     }
 }
