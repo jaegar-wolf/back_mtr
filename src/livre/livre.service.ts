@@ -53,6 +53,10 @@ export class LivreService {
     return this.bookRepository.save(entities);
   }
 
+  async getBookForIndex(){
+    return await this.bookRepository.find()
+  }
+
   async getBook(){
     return await this.bookRepository.find({ take: 1000})
   }

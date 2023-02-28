@@ -41,7 +41,7 @@ export class IndexService {
     }
 
     async createIndex(){
-      let books = await this.livreService.getBook()
+      let books = await this.livreService.getBookForIndex()
       this.logger.log(books.length)
       const batchSize = 10; 
 

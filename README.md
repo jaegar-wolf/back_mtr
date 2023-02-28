@@ -26,6 +26,19 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+
+## Before Starting the App
+If docker compose is installed do 
+```bash
+docker compose up -d
+``` 
+If not follow this link to install [Docker](https://docs.docker.com/desktop/install/windows-install/)
+
+## When running the app 
+
+First you have to get the books from gutendex, so call the endpoint [localhost:5001/livre](http://localhost:5001/livre)
+Second create the index, call this endpoint [localhost:5001/index](http://localhost:5001/index)
+
 ## Installation
 
 ```bash

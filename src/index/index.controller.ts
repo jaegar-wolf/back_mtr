@@ -6,8 +6,8 @@ export class IndexController {
 
     constructor(private indexService: IndexService){}
 
-    //@Get()
-    private async getFile() {
+    @Get()
+    async getFile() {
         return await this.indexService.createIndex()
       }
 }

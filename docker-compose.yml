@@ -1,0 +1,16 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:alpine3.17
+    restart: always
+    ports:
+      - 5431:5432
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: MTRB
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+
+volumes:
+  db-data:

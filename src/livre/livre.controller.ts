@@ -5,7 +5,8 @@ import { LivreService } from './livre.service';
 export class LivreController {
     constructor(private livreService: LivreService){}
 
-    private async getAllBooks(){
+    @Get()
+    async getAllBooks(){
         return await this.livreService.createBook()
     }
 

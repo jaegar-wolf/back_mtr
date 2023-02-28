@@ -11,8 +11,8 @@ import { Word } from './entity/word.entity';
     IndexModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
-      port: 5432,
+      host: '0.0.0.0',
+      port: 5431,
       username: 'postgres',
       password: 'postgres',
       database: 'MTRB',
