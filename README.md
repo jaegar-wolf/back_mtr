@@ -37,8 +37,8 @@ If not follow this link to install [Docker](https://docs.docker.com/desktop/inst
 ## When running the app 
 
 First you have to get the books from gutendex, so call the endpoint [localhost:5001/livre](http://localhost:5001/livre) <br/>
-Second create the index, call this endpoint [localhost:5001/index](http://localhost:5001/index)
-
+Second create the index, call this endpoint [localhost:5001/index](http://localhost:5001/index)<br/>
+Third install the [frontend](https://github.com/Amayes-Slh/Ebook-app)
 ## Installation
 
 ```bash
